@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "300270817551",
+    "firebase_url": "https://thegoviya.firebaseio.com",
+    "project_id": "thegoviya",
+    "storage_bucket": "thegoviya.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300270817551:android:281bab35217a93e1",
+        "android_client_info": {
+          "package_name": "com.example.saucecode.thegoviya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300270817551-oo5g9hrnj0f65cmdbg0kr3eo71mncvop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGCvIuoTUyEJujKu9Q1RsknOSs22eo3fI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
