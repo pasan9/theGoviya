@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(v == regInForm){
-            //Intent reginIntent = new Intent(this,regActivity.class);
-            //startActivity(reginIntent);
+            Intent reginIntent = new Intent(this,regActivity.class);
+            startActivity(reginIntent);
             this.finish();
         }
     }
