@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    public void loadHome(){ //launch home activity
+    public void loadHome(){
         Intent homeIntent = new Intent(this, homeActivity.class);
         startActivity(homeIntent);
         this.finish();
