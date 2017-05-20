@@ -44,13 +44,13 @@
 
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/nic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/rounded_edit_text"
-                android:hint="Email"
+                android:hint="NIC Number"
                 android:inputType="text"
                 android:padding="13dp"
 
@@ -90,6 +90,7 @@
                 android:text="Not Registered? Register now"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF" />
+
 
         </LinearLayout>
 

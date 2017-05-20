@@ -23,8 +23,15 @@
         android:background="@drawable/rounded_corner_layout"
 
         >
-        <EditText
+        <Spinner
             android:layout_margin="10dp"
+            android:id="@+id/userType"
+            android:hint="User Type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_margin="8dp"
             android:inputType="text"
             android:hint="Full name"
             android:id="@+id/fName"
@@ -51,14 +58,6 @@
             android:inputType="text"
             android:hint="Mobile number"
             android:id="@+id/telNo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:layout_margin="8dp"
-            android:inputType="text"
-            android:hint="Email"
-            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

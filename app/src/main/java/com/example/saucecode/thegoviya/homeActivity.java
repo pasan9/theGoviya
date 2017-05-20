@@ -1,6 +1,8 @@
 package com.example.saucecode.thegoviya;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +32,30 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         if(v == sellbtn){
             Intent sellIntent = new Intent(this,SellHarvest.class);
             startActivity(sellIntent);
+            this.finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        System.out.println("=========================================================================================\npressed back");
+        AlertDialog.Builder exitDialog = new AlertDialog.Builder(this);
+        exitDialog.setTitle("Exit");
+        exitDialog.setMessage("Are you sure you want to exit?");
+        exitDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                homeActivity.this.finish();
+            }
+        })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        final AlertDialog alert = exitDialog.create();
+        alert.show();
     }
 }
