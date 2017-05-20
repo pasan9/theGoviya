@@ -1,25 +1,16 @@
 package com.example.saucecode.thegoviya;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import static com.example.saucecode.thegoviya.R.drawable.rounded_corner_layout;
 
 public class DisplayProducts extends AppCompatActivity {
 
@@ -28,6 +19,8 @@ public class DisplayProducts extends AppCompatActivity {
     private RelativeLayout rLayout;
 
     private ListView listView;
+
+    private static CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +34,7 @@ public class DisplayProducts extends AppCompatActivity {
         System.out.println("=====================================================================================================");
         DisplayProds prods = new DisplayProds();
         prods.execute("");
+
 
     }
 
@@ -122,7 +116,19 @@ public class DisplayProducts extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             System.out.println("===========================================================================================================");
-            displayProducts(prodList);
+            //displayProducts(prodList);
+
+            adapter = new CustomAdapter(prodList,getApplicationContext());
+
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    Products dataModel= prodList.get(position);
+
+                }
+            });
         }
     }
 }
