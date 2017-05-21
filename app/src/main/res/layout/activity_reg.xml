@@ -47,7 +47,7 @@
 
         <EditText
             android:layout_margin="8dp"
-            android:inputType="text"
+            android:inputType="textPostalAddress"
             android:hint="Address"
             android:id="@+id/add"
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
 
         <EditText
             android:layout_margin="8dp"
-            android:inputType="text"
+            android:inputType="phone"
             android:hint="Mobile number"
             android:id="@+id/telNo"
             android:layout_width="match_parent"

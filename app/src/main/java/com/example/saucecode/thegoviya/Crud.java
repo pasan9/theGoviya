@@ -56,7 +56,7 @@ public class Crud {
 
     public void insertData(String query){
         try {
-            System.out.println(query);
+            //System.out.println(query);
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             connection = DriverManager.getConnection(connectionString);
 
@@ -91,7 +91,7 @@ public class Crud {
 
                 Products prod = new Products(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getDouble(4),resultSet.getDouble(5),resultSet.getString(6),resultSet.getString(7));
                 prodList.add(prod);
-                System.out.println(resultSet.getInt(1)+" "+resultSet.getString(2)+" "+resultSet.getDouble(3)+" "+resultSet.getDouble(4)+" "+resultSet.getDouble(5)+" "+resultSet.getString(6)+" "+resultSet.getString(7) );
+                //System.out.println(resultSet.getInt(1)+" "+resultSet.getString(2)+" "+resultSet.getDouble(3)+" "+resultSet.getDouble(4)+" "+resultSet.getDouble(5)+" "+resultSet.getString(6)+" "+resultSet.getString(7) );
             }
 
         }

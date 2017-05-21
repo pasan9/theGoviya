@@ -2,6 +2,7 @@ package com.example.saucecode.thegoviya;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,12 +16,15 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private Button sellbtn;
+    private Button logOut;
+    public static final String PREFS_NAME = "MyLoginStatusFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        logOut = (Button)findViewById(R.id.logOut);
+        logOut.setOnClickListener(this);
         sellbtn = (Button)findViewById(R.id.sellBtn);
         sellbtn.setOnClickListener(this);
 
@@ -34,11 +38,21 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(sellIntent);
             this.finish();
         }
+
+        if(v == logOut){
+            SharedPreferences settings = getSharedPreferences(this.PREFS_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("hasLoggedIn", false);
+            editor.commit();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            this.finish();
+        }
     }
 
     @Override
     public void onBackPressed() {
-        System.out.println("=========================================================================================\npressed back");
         AlertDialog.Builder exitDialog = new AlertDialog.Builder(this);
         exitDialog.setTitle("Exit");
         exitDialog.setMessage("Are you sure you want to exit?");

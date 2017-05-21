@@ -1,10 +1,12 @@
 package com.example.saucecode.thegoviya;
 
+import java.io.Serializable;
+
 /**
  * Created by buwaneka on 09/05/2017.
  */
 
-public class Products {
+public class Products implements Serializable {
 
     int productID;
     String farmerID;
