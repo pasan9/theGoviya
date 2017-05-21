@@ -28,6 +28,11 @@
         <activity android:name=".BuyerHome" />
         <activity android:name=".DisplayProducts" />
         <activity android:name=".BuyProduct"></activity>
+
+
+
+
+
     </application>
 
 </manifest>
