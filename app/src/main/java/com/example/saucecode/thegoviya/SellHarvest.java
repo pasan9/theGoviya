@@ -133,25 +133,9 @@ public class SellHarvest extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.out.println("=========================================================================================\npressed back");
-        AlertDialog.Builder exitDialog = new AlertDialog.Builder(this);
-        exitDialog.setTitle("Exit");
-        exitDialog.setMessage("Are you sure you want to exit?");
-        exitDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                SellHarvest.this.finish();
-            }
-        })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-        final AlertDialog alert = exitDialog.create();
-        alert.show();
+        Intent intent = new Intent(this, homeActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     public class AddProduct extends AsyncTask<String, String,String> {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private CurrentUser current = new CurrentUser();
     private Button loginBtn;
     private EditText nic;
     private EditText password;
@@ -32,12 +34,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog progress;
     private String uNic;
     private String uPass;
+    private int count = 1;
+    public static final String PREFS_NAME = "MyLoginStatusFile";
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences settings = getSharedPreferences(this.PREFS_NAME, 0);;
+
+        boolean hasLoggedIn = settings.getBoolean("hasLoggedIn", false);
+
+        if(hasLoggedIn)
+        {
+            current.setNicNumber(settings.getString("nicNumber" ,null));
+            current.setfName(settings.getString("fName" ,null));
+            current.setAddress(settings.getString("address" ,null));
+            current.setType(settings.getString("type" ,null));
+            current.setMobileNumber(settings.getInt("mobileNumber" ,0));
+
+            if(current.getType().equalsIgnoreCase("farmer")) loadHome();
+            else buyerHome();
+
+        }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -93,7 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        System.out.println("=========================================================================================\npressed back");
+        if(count == 1)
+            count++;
+        else
+            super.onBackPressed();
     }
 
     public void loadHome(){
@@ -120,10 +144,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String s) {
-           // writeToFile("hi hi",getApplicationContext());
             if(result.equalsIgnoreCase("farmer")){
+                sharedPreferenceStore();
                 loadHome();
             }else if(result.equalsIgnoreCase("buyer")){
+                sharedPreferenceStore();
                 buyerHome();
             } else {
                 progress.hide();
@@ -141,31 +166,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void writeToFile(String data,Context context) {
-        System.out.println("====================================================================");
-        FileOutputStream stream = null;
-        try {
-        File path = context.getExternalFilesDir(null);
-        File file = new File(path, "theGoviyaLogin.txt");
-            if (!file.exists()) {
-                if(file.mkdir())System.out.println("Folder created");
-            }
-            System.out.println(file.getAbsoluteFile());
-        stream = new FileOutputStream(file);
-            stream.write(uNic.getBytes());
-            System.out.println("====================================================================");
-        } catch (IOException e) {
-            System.out.println("E====================================================================");
-            e.printStackTrace();
-        } finally {
-            try {
-                System.out.println("C====================================================================");
-                stream.close();
-            } catch (IOException e) {
-                System.out.println("CE====================================================================");
-                e.printStackTrace();
-            }
-        }
-    }
+    private void sharedPreferenceStore(){
 
+        SharedPreferences settings = getSharedPreferences(this.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+
+        editor.putBoolean("hasLoggedIn", true);
+        editor.putString("nicNumber", current.getNicNumber());
+        editor.putString("fName", current.getfName());
+        editor.putString("address", current.getAddress());
+        editor.putString("type", current.getType());
+        editor.putInt("mobileNumber", current.getMobileNumber());
+        editor.commit();
+    }
 }

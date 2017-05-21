@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,12 +7,40 @@
     android:layout_height="match_parent"
     tools:context="com.example.saucecode.thegoviya.BuyerHome">
 
-    <Button
-        android:id="@+id/viewProducts"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_action_bar_tool_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Products"
-        tools:layout_editor_absoluteX="63dp"
-        tools:layout_editor_absoluteY="69dp" />
+        android:background="@color/primary_dark_material_light"
+        android:logo="@drawable/goviyalogo1"
+        >
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_below="@+id/my_action_bar_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/viewProducts"
+        android:background="@mipmap/ic_buybtnicon"
+        android:layout_marginLeft="58dp"
+        android:layout_marginStart="58dp" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="58dp"
+        android:layout_marginStart="58dp"
+        android:id="@+id/logOut"
+        android:background="@mipmap/ic_logouticon"
+       />
+
+    </LinearLayout>
+
 </RelativeLayout>
 

@@ -27,8 +27,12 @@
         <activity android:name=".SellHarvest" />
         <activity android:name=".BuyerHome" />
         <activity android:name=".DisplayProducts" />
+
         <activity android:name=".BluetoothDevices" />
         <activity android:name=".Moisture"></activity>
+
+        <activity android:name=".BuyProduct"></activity>
+
     </application>
 
 </manifest>

@@ -1,10 +1,13 @@
 package com.example.saucecode.thegoviya;
 
+import android.content.SharedPreferences;
+
 /**
  * Created by buwaneka on 07/05/2017.
  */
 
 public class CurrentUser {
+
     private static String nicNumber = "";
     private static String fName = "";
     private static String address = "";
@@ -50,4 +53,6 @@ public class CurrentUser {
     public static void setMobileNumber(int mobileNumber) {
         CurrentUser.mobileNumber = mobileNumber;
     }
+
+
 }
