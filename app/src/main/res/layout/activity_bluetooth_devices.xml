@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:text="Paired Devices"
+            android:id="@+id/btnPaired"
+            android:layout_margin="20dp"
+            android:background="@drawable/round_green_button"
+        />
+
+    <ListView android:layout_height="400dp"
+            android:layout_width="336dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/pairedList"
+            android:layout_marginBottom="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/btnPaired"/>
+
+</RelativeLayout>

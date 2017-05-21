@@ -26,7 +26,9 @@
         <activity android:name=".homeActivity" />
         <activity android:name=".SellHarvest" />
         <activity android:name=".BuyerHome" />
-        <activity android:name=".DisplayProducts"></activity>
+        <activity android:name=".DisplayProducts" />
+        <activity android:name=".BluetoothDevices" />
+        <activity android:name=".Moisture"></activity>
     </application>
 
 </manifest>
