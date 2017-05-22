@@ -114,14 +114,16 @@ public class DisplayProducts extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Products dataModel= prodList.get(position);
-                System.out.println(dataModel.farmerID+" "+dataModel.type);
-                purchaseProduct(position);
+
+
+                //System.out.println(dataModel.farmerID+" "+dataModel.type);
+                viewProduct(dataModel);
             }
         });
     }
-    private void purchaseProduct(int position){
-        Intent intent = new Intent(this, BuyProduct.class);
-        intent.putExtra("product",prodList.get(position));
+    private void viewProduct(Products product){
+        Intent intent = new Intent(this, ProductDetails.class);
+        intent.putExtra("product",product);
         startActivity(intent);
     }
 

@@ -111,11 +111,11 @@ public class CustomAdapter extends ArrayAdapter<Products> implements View.OnClic
         lastPosition = position;
 
 
-        viewHolder.type.setText(dataModel.type);
-        viewHolder.farmerID.setText(dataModel.farmerID);
-        viewHolder.quantity.setText(dataModel.qty+"");
-        viewHolder.price.setText(dataModel.price+"");
-        viewHolder.moisture.setText(dataModel.mois+"");
+        viewHolder.type.setText("Type of Crop : "+dataModel.type);
+        //viewHolder.farmerID.setText(viewHolder.farmerID.getText()+dataModel.farmerID);
+        viewHolder.quantity.setText("Quantity : "+dataModel.qty+"");
+        viewHolder.price.setText("Price : "+dataModel.price+"");
+        viewHolder.moisture.setText("Moisture : "+dataModel.mois+"");
         viewHolder.sellingMethod.setText(dataModel.sellingMethod);
         viewHolder.sellingMethod.setOnClickListener(this);
         viewHolder.sellingMethod.setTag(position);

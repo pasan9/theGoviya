@@ -13,16 +13,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_dark_material_light"
+        />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/my_action_bar_tool_bar"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+
         >
 
-    </android.support.v7.widget.Toolbar>
+
+
+
 
     <ListView
         android:id="@+id/list"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/my_action_bar_tool_bar"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+
+
         />
+
+     </FrameLayout>
 
 
 </RelativeLayout>

@@ -61,8 +61,16 @@ public class SellHarvest extends AppCompatActivity {
 
         sellMethod = (Spinner)findViewById(R.id.sellMethod);
 
-        list.add("Paddy");
-        list.add("Onions");
+       // list.add("Paddy");
+        list.add("Samba -White Rice");
+        list.add("Samba - Red Rice");
+        list.add("Baasmathi - Red Rice");
+        list.add("Rathu Kekulu");
+        list.add("Sudu Kekulu");
+        list.add("Naadu Rice");
+        list.add("Kalu Heenati");
+        list.add("Suwandel");
+        //list.add("Onions");
 
         sellMethodList.add("Auction");
         sellMethodList.add("Sell it now");

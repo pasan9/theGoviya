@@ -8,7 +8,7 @@ public class Moisture extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_moisture);
+        setContentView(R.layout.moisture_layout);
 
 
     }

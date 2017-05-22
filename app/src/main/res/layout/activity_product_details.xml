@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.saucecode.thegoviya.ProductDetails">
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/productType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Product Type"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/priceTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="53dp"
+            android:text="Price :"
+            android:textSize="18sp"
+            android:layout_alignTop="@+id/saleType"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/saleType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direct Sale"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/productType"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="29dp" />
+
+        <TextView
+            android:id="@+id/QtyTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+
+            android:layout_marginTop="181dp"
+            android:text="Quantity :"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/moistureTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/QtyTxt"
+            android:layout_marginTop="34dp"
+            android:text="Moisture :"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_marginTop="7dp"
+            android:id="@+id/MoistureLastUpTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Updated :"
+            android:layout_below="@+id/moistureTxt"
+             />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/MoistureLastUpTxt"
+            android:layout_marginTop="40dp"
+            android:weightSum="2"
+            >
+
+            <Button
+                android:id="@+id/btnContactSeller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/round_green_button"
+                android:textColor="#FFFFFF"
+                android:text="Contact Seller"
+                android:layout_marginRight="10dp"
+                 />
+
+
+            <Button
+                android:id="@+id/btnSellerLocation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/round_green_button"
+                android:textColor="#FFFFFF"
+                android:text="Location"
+                android:layout_marginLeft="10dp"
+                />
+
+
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
