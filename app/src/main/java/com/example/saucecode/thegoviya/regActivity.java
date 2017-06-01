@@ -23,6 +23,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,24 +169,71 @@ public class regActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public class RegisterUser extends AsyncTask<String, String,String> {
-        String result = "";
+        Person person = new Person();
+
+        public JSONObject getJSONObject(){
+
+            person.setNicNumber(nicNum);
+            person.setfName(fullName);
+            person.setMobileNumber(mobile);
+            person.setAddress(address);
+            person.setType(type);
+
+            JSONObject obj = new JSONObject();
+            try {
+                obj.put("NIC", nicNum);
+                obj.put("fullName", fullName);
+                obj.put("mobile", mobile);
+                obj.put("address", address);
+                obj.put("password", pass);
+
+                System.out.println(obj.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return obj;
+        }
+
         @Override
         protected String doInBackground(String... params) {
-            Crud con = new Crud();
-            con.insertData("INSERT INTO users VALUES ('"+nicNum+"','"+fullName+"',"+mobile+",'"+address+"','"+pass+"','"+type+"');");
-            result = con.connectDBLogin("SELECT * FROM users WHERE NIC='"+nicNum+"' AND password='"+pass+"';");
-            return "Success";
+            HttpURLConnection httpConnection;
+            URL mUrl;
+            try {
+                if(type.equalsIgnoreCase("Buyer")) mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Buyer");
+                else mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Farmer");
+                httpConnection = (HttpURLConnection) mUrl.openConnection();
+                httpConnection.setRequestMethod("POST");
+                httpConnection.setRequestProperty("Content-Type", "application/json");
+                httpConnection.setRequestProperty("Content-length", "" + getJSONObject().toString().length() + "");
+                httpConnection.setDoInput(true);
+                httpConnection.setDoOutput(true);
+                httpConnection.connect();
+                DataOutputStream os = new DataOutputStream(httpConnection.getOutputStream());
+                os.writeBytes(getJSONObject().toString());
+                os.flush();
+                os.close();
+                int responseCode = httpConnection.getResponseCode();
+                if(responseCode == 204 || responseCode == RESULT_OK) return "success";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return "failed";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if(result.equalsIgnoreCase("farmer")){
-                loadHome();
-            }else if(result.equalsIgnoreCase("buyer")){
-                buyerHome();
-            } else {
+            if(s.equalsIgnoreCase("success")){
                 progress.hide();
-                Toast.makeText(regActivity.this, "Failed to register! try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(regActivity.this, "User registered successfully!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(regActivity.this, MainActivity.class);
+                intent.putExtra("person", person);
+                startActivity(intent);
+                finish();
+
             }
         }
     }

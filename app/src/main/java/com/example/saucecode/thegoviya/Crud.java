@@ -56,7 +56,7 @@ public class Crud {
 
     public void insertData(String query){
         try {
-            //System.out.println(query);
+            System.out.println(query);
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             connection = DriverManager.getConnection(connectionString);
 

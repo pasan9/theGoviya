@@ -26,14 +26,15 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
-
-public class DisplayProducts extends AppCompatActivity {
+public class UserProducts extends AppCompatActivity {
 
     ArrayList<Products> prodList = new ArrayList<Products>();
+    ArrayList<Products> farmerProdList = new ArrayList<Products>();
     private ListView listView;
-    private static CustomAdapter adapter;
+    private static CustomAdapterFarmer adapter;
     private ProgressDialog progressDialog;
     private Toolbar toolbar;
+    private CurrentUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,14 @@ public class DisplayProducts extends AppCompatActivity {
 
     }
 
-
-    public class DisplayProds extends AsyncTask<Void, Integer, String> {
+    private class DisplayProds extends AsyncTask<Void, Integer, String> {
 
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(DisplayProducts.this);
+            progressDialog = new ProgressDialog(UserProducts.this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setTitle("Loading...");
-            progressDialog.setMessage("Loading product list, Please wait...");
+            progressDialog.setMessage("Loading your product list, Please wait...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
             progressDialog.setMax(100);
@@ -62,12 +62,9 @@ public class DisplayProducts extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            /*Crud con = new Crud();
-            prodList = con.selectData("SELECT * FROM products");*/
-
             URL mUrl = null;
             try {
-                mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Product");
+                mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Product/?farmerID="+user.getNicNumber());
                 HttpURLConnection httpConnection = (HttpURLConnection) mUrl.openConnection();
                 httpConnection.setRequestMethod("GET");
                 httpConnection.setRequestProperty("Content-length", "0");
@@ -124,7 +121,6 @@ public class DisplayProducts extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-
             System.out.println("===========================================================");
             System.out.println(s);
 
@@ -146,9 +142,8 @@ public class DisplayProducts extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
             progressDialog.dismiss();
-            setContentView(R.layout.display_products);
+            setContentView(R.layout.activity_user_products);
             toolbar = (Toolbar)findViewById(R.id.my_action_bar_tool_bar);
             setSupportActionBar(toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
@@ -175,31 +170,30 @@ public class DisplayProducts extends AppCompatActivity {
     }
 
     private void populateProductList(){
-        adapter = new CustomAdapter(prodList,getApplicationContext());
+        for(int i = 0;i < prodList.size();i++){
+            if(prodList.get(i).farmerID.equalsIgnoreCase(user.getNicNumber()))
+                farmerProdList.add(prodList.get(i));
+        }
+        adapter = new CustomAdapterFarmer(farmerProdList,getApplicationContext());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Products dataModel= prodList.get(position);
-
-
-                //System.out.println(dataModel.farmerID+" "+dataModel.type);
-                viewProduct(dataModel);
+                //selectProduct(position);
             }
         });
     }
-    private void viewProduct(Products product){
-        Intent intent = new Intent(this, ProductDetails.class);
-        intent.putExtra("product",product);
+    private void selectProduct(int position){
+        Intent intent = new Intent(this, BuyProduct.class);
+        intent.putExtra("product",prodList.get(position));
         startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, BuyerHome.class);
+        Intent intent = new Intent(this, homeActivity.class);
         startActivity(intent);
         this.finish();
     }
-
-
 }
