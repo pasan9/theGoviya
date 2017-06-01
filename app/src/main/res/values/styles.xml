@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="GoviyaTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="GoviyaTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+
+
+        <item name="colorPrimaryDark">@color/appbarcolor</item>
+    </style>
+
 
 </resources>
