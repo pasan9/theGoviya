@@ -156,7 +156,7 @@ public class DisplayProducts extends AppCompatActivity {
 
 
             progressDialog.dismiss();
-            setContentView(R.layout.activity_display_products);
+            setContentView(R.layout.display_products);
             toolbar = (Toolbar) findViewById(R.id.my_action_bar_tool_bar);
             setSupportActionBar(toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
