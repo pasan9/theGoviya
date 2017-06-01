@@ -34,13 +34,21 @@ public class DisplayProducts extends AppCompatActivity {
     private static CustomAdapter adapter;
     private ProgressDialog progressDialog;
     private Toolbar toolbar;
+    OnDataChangeThread thread = new OnDataChangeThread();
+    boolean refreshed = false;
+    boolean populatedList = false;
+    boolean runThread = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        runThread = true;
+        thread.start();
 
         DisplayProds prods = new DisplayProds();
         prods.execute();
+
 
     }
 
@@ -62,8 +70,6 @@ public class DisplayProducts extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            /*Crud con = new Crud();
-            prodList = con.selectData("SELECT * FROM products");*/
 
             URL mUrl = null;
             try {
@@ -89,20 +95,20 @@ public class DisplayProducts extends AppCompatActivity {
                     }
                     br.close();
 
-                    synchronized (this)
-                    {
+                    synchronized (this) {
                         int counter = 0;
-                        while(counter <= 4)
-                        {
+                        while (counter <= 4) {
                             this.wait(10);
                             counter++;
-                            publishProgress(counter*25);
+                            publishProgress(counter * 25);
                         }
                     }
 
                     return sb.toString();
 
                 }
+
+                httpConnection.disconnect();
 
 
             } catch (MalformedURLException e) {
@@ -131,6 +137,8 @@ public class DisplayProducts extends AppCompatActivity {
             JSONObject products = null;
 
             Products prod;
+            prodList.clear();
+            //prodList = new ArrayList<Products>();
             try {
                 products = new JSONObject(s);
 
@@ -138,7 +146,7 @@ public class DisplayProducts extends AppCompatActivity {
 
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
-                    prod = new Products(prodObject.getInt("productID"),prodObject.getString("farmerID"),prodObject.getDouble("Quantity"),prodObject.getDouble("UnitPrice"),prodObject.getDouble("MoistureLevel"),prodObject.getString("ProductType"),prodObject.getString("SellingMethod"));
+                    prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"));
                     prodList.add(prod);
                 }
 
@@ -149,11 +157,11 @@ public class DisplayProducts extends AppCompatActivity {
 
             progressDialog.dismiss();
             setContentView(R.layout.activity_display_products);
-            toolbar = (Toolbar)findViewById(R.id.my_action_bar_tool_bar);
+            toolbar = (Toolbar) findViewById(R.id.my_action_bar_tool_bar);
             setSupportActionBar(toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
             toolbar.setSubtitleTextColor(Color.WHITE);
-            listView = (ListView)findViewById(R.id.list);
+            listView = (ListView) findViewById(R.id.list);
             populateProductList();
         }
     }
@@ -167,39 +175,125 @@ public class DisplayProducts extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int optionId = item.getItemId();
-        if(optionId == R.id.action_refresh){
+        if (optionId == R.id.action_refresh) {
             DisplayProds prods = new DisplayProds();
             prods.execute();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void populateProductList(){
-        adapter = new CustomAdapter(prodList,getApplicationContext());
+    public void onOptionsItemSelected(int optionId) {
+        refreshed = true;
+        if (optionId == R.id.action_refresh) {
+            DisplayProds prods = new DisplayProds();
+            prods.execute();
+        }
+    }
+
+    private void populateProductList() {
+        populatedList = true;
+        adapter = new CustomAdapter(prodList, getApplicationContext());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Products dataModel= prodList.get(position);
+                Products dataModel = prodList.get(position);
 
 
                 //System.out.println(dataModel.farmerID+" "+dataModel.type);
                 viewProduct(dataModel);
             }
         });
+        refreshed = false;
     }
-    private void viewProduct(Products product){
+
+    private void viewProduct(Products product) {
         Intent intent = new Intent(this, ProductDetails.class);
-        intent.putExtra("product",product);
+        intent.putExtra("product", product);
         startActivity(intent);
     }
 
+
     @Override
     public void onBackPressed() {
+        runThread = false;
         Intent intent = new Intent(this, BuyerHome.class);
         startActivity(intent);
         this.finish();
     }
+
+    private class OnDataChangeThread extends Thread {
+        public void run() {
+            System.out.println("======================Thread runningg");
+            while (runThread) {
+                System.out.println("=============================================gggg==============");
+                if(!refreshed && populatedList){
+                    URL mUrl = null;
+                    try {
+                        mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Product/?refresh=true&found=true");
+                        HttpURLConnection httpConnection = (HttpURLConnection) mUrl.openConnection();
+                        httpConnection.setRequestMethod("GET");
+                        httpConnection.setRequestProperty("Content-length", "0");
+                        httpConnection.setUseCaches(false);
+                        httpConnection.setAllowUserInteraction(false);
+                        httpConnection.setConnectTimeout(100000);
+                        httpConnection.setReadTimeout(100000);
+                        httpConnection.connect();
+
+                        int responseCode = httpConnection.getResponseCode();
+
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            br.close();
+
+                            JSONObject products = null;
+
+                            Products prod;
+
+                            products = new JSONObject(sb.toString());
+
+                            JSONArray dataObject = products.getJSONArray("Table");
+
+                            JSONObject prodObject = dataObject.getJSONObject(0);
+
+                            System.out.println(prodObject.get("Column1").toString()+" /// "+prodList.size());
+
+                            if(prodObject.getInt("Column1") > prodList.size()){
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        onOptionsItemSelected(R.id.action_refresh);
+                                    }
+                                });
+
+                            }
+
+                        }
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
 
 
 }
