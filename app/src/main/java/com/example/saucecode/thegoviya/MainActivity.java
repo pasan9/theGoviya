@@ -18,13 +18,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CurrentUser current = new CurrentUser();
     private Button loginBtn;
@@ -38,24 +48,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String PREFS_NAME = "MyLoginStatusFile";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences settings = getSharedPreferences(this.PREFS_NAME, 0);;
+        Intent intent = getIntent();
+        /*if(true)*/
+        Person person = (Person) intent.getSerializableExtra("person");
+        if(person != null) {
+            System.out.println("hereeeeeeeeeeeeeeeeeee");
+            sharedPreferenceStore(person);
+        }
+
+        SharedPreferences settings = getSharedPreferences(this.PREFS_NAME, 0);
 
         boolean hasLoggedIn = settings.getBoolean("hasLoggedIn", false);
 
-        if(hasLoggedIn)
-        {
-            current.setNicNumber(settings.getString("nicNumber" ,null));
-            current.setfName(settings.getString("fName" ,null));
-            current.setAddress(settings.getString("address" ,null));
-            current.setType(settings.getString("type" ,null));
-            current.setMobileNumber(settings.getInt("mobileNumber" ,0));
+        if (hasLoggedIn) {
+            current.setNicNumber(settings.getString("nicNumber", null));
+            current.setfName(settings.getString("fName", null));
+            current.setAddress(settings.getString("address", null));
+            current.setType(settings.getString("type", null));
+            current.setMobileNumber(settings.getInt("mobileNumber", 0));
 
-            if(current.getType().equalsIgnoreCase("farmer")) loadHome();
+            if (current.getType().equalsIgnoreCase("farmer")) loadHome();
             else buyerHome();
 
         }
@@ -66,10 +82,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         progress = new ProgressDialog(this);
 
-        loginBtn = (Button)findViewById(R.id.loginBtn);
-        nic = (EditText)findViewById(R.id.nic);
-        password = (EditText)findViewById(R.id.password);
-        regInForm = (TextView)findViewById(R.id.txtViewlogin);
+        loginBtn = (Button) findViewById(R.id.loginBtn);
+        nic = (EditText) findViewById(R.id.nic);
+        password = (EditText) findViewById(R.id.password);
+        regInForm = (TextView) findViewById(R.id.txtViewlogin);
 
         loginBtn.setOnClickListener(this);
         regInForm.setOnClickListener(this);
@@ -78,29 +94,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v == loginBtn){
+        if (v == loginBtn) {
             loginUser();
             hideKeyboard(this);
         }
 
-        if(v == regInForm){
-            Intent reginIntent = new Intent(this,regActivity.class);
+        if (v == regInForm) {
+            Intent reginIntent = new Intent(this, regActivity.class);
             startActivity(reginIntent);
             this.finish();
         }
     }
 
-    private void loginUser(){
+    private void loginUser() {
         uNic = nic.getText().toString().trim();
         uPass = password.getText().toString().trim();
 
-        if(TextUtils.isEmpty(uNic)){
-            Toast.makeText(this,"Please enter an email!",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(uNic)) {
+            Toast.makeText(this, "Please enter an email!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(TextUtils.isEmpty(uPass)){
-            Toast.makeText(this,"Please enter a password",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(uPass)) {
+            Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -114,41 +130,98 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if(count == 1)
+        if (count == 1)
             count++;
         else
             super.onBackPressed();
     }
 
-    public void loadHome(){
+    public void loadHome() {
         Intent homeIntent = new Intent(this, homeActivity.class);
         startActivity(homeIntent);
         this.finish();
     }
 
-    public void buyerHome(){
+    public void buyerHome() {
         Intent homeIntent = new Intent(this, BuyerHome.class);
         startActivity(homeIntent);
         this.finish();
     }
 
 
-    public class CheckLogin extends AsyncTask<String, String,String>{
+    public class CheckLogin extends AsyncTask<String, String, String> {
         String result = "";
+
         @Override
         protected String doInBackground(String... params) {
-            Crud con = new Crud();
-            result = con.connectDBLogin("SELECT * FROM users WHERE NIC='"+uNic+"' AND password='"+uPass+"';");
+            /*Crud con = new Crud();
+            result = con.connectDBLogin("SELECT * FROM users WHERE NIC='"+uNic+"' AND password='"+uPass+"';");*/
+            URL mUrl = null;
+            try {
+                mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Farmer/?NIC="+uNic+"&password="+uPass);
+                HttpURLConnection httpConnection = (HttpURLConnection) mUrl.openConnection();
+                httpConnection.setRequestMethod("GET");
+                httpConnection.setRequestProperty("Content-length", "0");
+                httpConnection.setUseCaches(false);
+                httpConnection.setAllowUserInteraction(false);
+                httpConnection.setConnectTimeout(100000);
+                httpConnection.setReadTimeout(100000);
+                httpConnection.connect();
+
+                int responseCode = httpConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    System.out.println("=============================================gggg==============");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    return sb.toString();
+
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "Success";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if(result.equalsIgnoreCase("farmer")){
-                sharedPreferenceStore();
+            System.out.println("===========================================================");
+            System.out.println(s);
+
+            JSONObject personObject = null;
+            Person person = new Person();
+
+            try {
+                personObject = new JSONObject(s);
+                JSONArray dataObject = personObject.getJSONArray("Table");
+                JSONObject json = dataObject.getJSONObject(0);
+                person.setNicNumber(json.getString("NIC"));
+                person.setfName(json.getString("fullName"));
+                person.setAddress(json.getString("address"));
+                person.setMobileNumber(json.getInt("mobile"));
+                person.setType(json.getString("type"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if (person.getType().equalsIgnoreCase("farmer")) {
+                sharedPreferenceStore(person);
                 loadHome();
-            }else if(result.equalsIgnoreCase("buyer")){
-                sharedPreferenceStore();
+            } else if (person.getType().equalsIgnoreCase("buyer")) {
+                sharedPreferenceStore(person);
                 buyerHome();
             } else {
                 progress.hide();
@@ -166,17 +239,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void sharedPreferenceStore(){
+    private void sharedPreferenceStore(Person person) {
 
         SharedPreferences settings = getSharedPreferences(this.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
+        current.setNicNumber(person.getNicNumber());
+        current.setfName(person.getfName());
+        current.setAddress(person.getAddress());
+        current.setType(person.getType());
+        current.setMobileNumber(person.getMobileNumber());
+
         editor.putBoolean("hasLoggedIn", true);
-        editor.putString("nicNumber", current.getNicNumber());
-        editor.putString("fName", current.getfName());
-        editor.putString("address", current.getAddress());
-        editor.putString("type", current.getType());
-        editor.putInt("mobileNumber", current.getMobileNumber());
+        editor.putString("nicNumber", person.getNicNumber());
+        editor.putString("fName", person.getfName());
+        editor.putString("address", person.getAddress());
+        editor.putString("type", person.getType());
+        editor.putInt("mobileNumber", person.getMobileNumber());
         editor.commit();
     }
 }

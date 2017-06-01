@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.saucecode.thegoviya">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -28,8 +30,10 @@
         <activity android:name=".BuyerHome" />
         <activity android:name=".DisplayProducts" />
         <activity android:name=".BuyProduct" />
-        <activity android:name=".BluetoothDevices" />
+        <activity android:name=".BluetoothDevices"
+            android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".Moisture" />
+        <activity android:name=".UserProducts"/>
         <activity android:name=".ProductDetails"></activity>
     </application>
 

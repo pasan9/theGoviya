@@ -16,6 +16,15 @@ public class Products implements Serializable {
     String type;
     String sellingMethod;
 
+    public Products(String f,double q,double pr,double mo,String ty,String sel){
+        this.farmerID = f;
+        this.price = pr;
+        this.mois = mo;
+        this.qty = q;
+        this.sellingMethod = sel;
+        this.type = ty;
+    }
+
     public Products(int p,String f,double q,double pr,double mo,String ty,String sel){
         this.productID = p;
         this.farmerID = f;

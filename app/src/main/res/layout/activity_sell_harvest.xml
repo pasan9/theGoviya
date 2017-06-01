@@ -45,13 +45,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     <EditText
         android:layout_margin="8dp"
         android:inputType="numberDecimal"
         android:hint="Moisture level"
+        android:enabled="false"
         android:id="@+id/mois"
-        android:layout_width="match_parent"
+        android:layout_width="137dp"
         android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/detectMois"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/round_green_button"
+                android:text="Detect"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
 
         <Spinner
             android:layout_margin="8dp"
