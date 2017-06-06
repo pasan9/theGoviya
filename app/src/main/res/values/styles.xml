@@ -11,7 +11,7 @@
     <style name="GoviyaTheme" parent="Theme.AppCompat.Light.NoActionBar" >
 
 
-        <item name="colorPrimaryDark">@color/appbarcolor</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
 

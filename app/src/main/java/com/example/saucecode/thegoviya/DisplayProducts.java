@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -38,16 +40,31 @@ public class DisplayProducts extends AppCompatActivity {
     boolean refreshed = false;
     boolean populatedList = false;
     boolean runThread = false;
+    //private String[] SortOptions;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
+
+
+
+
+
         runThread = true;
         thread.start();
 
         DisplayProds prods = new DisplayProds();
         prods.execute();
+
+
 
 
     }
@@ -144,6 +161,7 @@ public class DisplayProducts extends AppCompatActivity {
 
                 JSONArray dataObject = products.getJSONArray("Table");
 
+
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
                     prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"));
@@ -152,17 +170,20 @@ public class DisplayProducts extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (NullPointerException e1){
+                e1.printStackTrace();
             }
 
 
             progressDialog.dismiss();
-            setContentView(R.layout.display_products);
+            setContentView(R.layout.activity_display_products);
             toolbar = (Toolbar) findViewById(R.id.my_action_bar_tool_bar);
             setSupportActionBar(toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
             toolbar.setSubtitleTextColor(Color.WHITE);
             listView = (ListView) findViewById(R.id.list);
             populateProductList();
+            loadNavBar();
         }
     }
 
@@ -292,6 +313,24 @@ public class DisplayProducts extends AppCompatActivity {
             }
 
         }
+    }
+
+
+    void loadNavBar(){
+
+        String [] SortOption = {"Sort in price","Filter With","Hello","Yoyo"};
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        //set adapter for drawer listview
+
+        //mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,SortOption));
+
+        mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,SortOption);
+
+        mDrawerList.setAdapter(mAdapter);
+
+
     }
 
 
