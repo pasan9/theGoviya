@@ -76,7 +76,7 @@ public class DisplayProducts extends AppCompatActivity {
             progressDialog.setIndeterminate(false);
             progressDialog.setMax(100);
             progressDialog.setProgress(0);
-           // progressDialog.show();
+            // progressDialog.show();
         }
 
         @Override
@@ -155,27 +155,27 @@ public class DisplayProducts extends AppCompatActivity {
 
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
-                    prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"),prodObject.getString("BidDuration"));
-                    if(compareDates(prod.bidDuration) || prod.sellingMethod.equalsIgnoreCase("Sell it now"))
+                    prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"), prodObject.getString("BidDuration"));
+                    if (compareDates(prod.bidDuration) || prod.sellingMethod.equalsIgnoreCase("Sell it now"))
                         //System.out.println(prod.sellingMethod);
                         prodList.add(prod);
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (NullPointerException e1){
+            } catch (NullPointerException e1) {
                 e1.printStackTrace();
             }
 
             progressDialog.dismiss();
-            setContentView(R.layout.display_products);
+            setContentView(R.layout.activity_display_products);
             toolbar = (Toolbar) findViewById(R.id.my_action_bar_tool_bar);
             setSupportActionBar(toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
             toolbar.setSubtitleTextColor(Color.WHITE);
             listView = (ListView) findViewById(R.id.list);
             populateProductList();
-            swiper = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+            swiper = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshDis);
             swiper.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
             swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -244,7 +244,7 @@ public class DisplayProducts extends AppCompatActivity {
         this.finish();
     }
 
-    private void setSwipeAction(){
+    private void setSwipeAction() {
         swiper = (SwipeRefreshLayout) DisplayProducts.this.findViewById(R.id.swipeRefresh);
         swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -259,7 +259,7 @@ public class DisplayProducts extends AppCompatActivity {
             System.out.println("======================Thread runningg");
             while (runThread) {
                 System.out.println("=============================================gggg==============");
-                if(!refreshed && populatedList){
+                if (!refreshed && populatedList) {
                     URL mUrl = null;
                     try {
                         mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Product/?refresh=true&found=true");
@@ -293,9 +293,9 @@ public class DisplayProducts extends AppCompatActivity {
 
                             JSONObject prodObject = dataObject.getJSONObject(0);
 
-                            System.out.println(prodObject.get("Column1").toString()+" /// "+prodList.size());
+                            System.out.println(prodObject.get("Column1").toString() + " /// " + prodList.size());
 
-                            if(prodObject.getInt("Column1") > prodList.size()){
+                            if (prodObject.getInt("Column1") > prodList.size()) {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         onOptionsItemSelected(R.id.action_refresh);
@@ -327,7 +327,7 @@ public class DisplayProducts extends AppCompatActivity {
     }
 
 
-    private boolean compareDates(String givenDate){
+    private boolean compareDates(String givenDate) {
         int year;
         int month;
         int day;
@@ -356,16 +356,16 @@ public class DisplayProducts extends AppCompatActivity {
 
         Calendar now = Calendar.getInstance();
 
-        System.out.println("date : "+cal.getTime()+" mils "+cal.getTimeInMillis()+" today : "+now.getTime()+" mils : "+now.getTimeInMillis());
+        System.out.println("date : " + cal.getTime() + " mils " + cal.getTimeInMillis() + " today : " + now.getTime() + " mils : " + now.getTimeInMillis());
         long mil = cal.getTimeInMillis() - now.getTimeInMillis();
-        if(mil > 0)return true;
+        if (mil > 0) return true;
         return false;
     }
 
 
-    void loadNavBar(){
+    void loadNavBar() {
 
-        String [] SortOption = {"Sort in price","Filter With","Hello","Yoyo"};
+        String[] SortOption = {"Sort in price", "Filter With", "Hello", "Yoyo"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -373,13 +373,12 @@ public class DisplayProducts extends AppCompatActivity {
 
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,SortOption));
 
-        mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,SortOption);
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, SortOption);
 
         mDrawerList.setAdapter(mAdapter);
 
 
     }
-
 
 
 }

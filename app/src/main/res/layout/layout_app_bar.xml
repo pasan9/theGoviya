@@ -6,8 +6,6 @@
         android:id="@+id/my_action_bar_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/appbarcolor"
-        android:elevation="4dp"
-        />
+        android:background="@color/appbarcolor"/>
 
 </merge>
