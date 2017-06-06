@@ -9,53 +9,71 @@
     tools:context="com.example.saucecode.thegoviya.DisplayProducts">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_action_bar_tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/appbarcolor"
-        android:elevation="4dp" />
+    <include layout="@layout/layout_app_bar"/>
 
 
-    <LinearLayout
-
-        android:id="@+id/sortfilter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <android.support.v4.widget.DrawerLayout
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout"
         android:layout_below="@id/my_action_bar_tool_bar"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:weightSum="5"
-        android:gravity="right"
-        android:background="#f2f2f2"
+        >
 
-        android:layout_alignParentBottom="true">
+        <!-- The main content view -->
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SORT"
-            android:textColor="@color/primary_dark_material_light"
-            android:textSize="16dp"
-            android:gravity="right"
-            />
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="FILTER"
-            android:textColor="@color/primary_dark_material_light"
-            android:layout_weight="1"
-            android:textSize="16dp"
-            android:gravity="right"
-            />
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
 
-    </LinearLayout>
+                <LinearLayout
 
+                    android:id="@+id/sortfilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginTop="5dp"
+
+                    android:gravity="right"
+                    android:background="#f2f2f2"
+
+                    >
+
+
+                    <Button
+                        android:id="@+id/SortBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@null"
+                        android:text="SORT/FILTER"
+                        android:textColor="@color/primary_dark_material_light"
+
+                        />
+
+
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:elevation="4dp"
+                    android:id="@+id/frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/sortfilter"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    >
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -70,26 +88,56 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
 
-        >
 
 
 
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sort"
+                        android:textStyle="bold"
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
+                        />
+
+                    <ListView
+                        android:id="@+id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0dp"
 
 
-        />
+                        />
 
-     </FrameLayout>
+                </FrameLayout>
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+
+            </RelativeLayout>
+
+
+        </FrameLayout>
+
+
+        <ListView android:id="@+id/left_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:choiceMode="singleChoice"
+
+            android:background="#ffeeeeee"/>
+
+
+
+
+
+
+
+
+
+    </android.support.v4.widget.DrawerLayout>
 
 </RelativeLayout>

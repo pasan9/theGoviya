@@ -1,11 +1,11 @@
 package com.example.saucecode.thegoviya;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -43,6 +44,10 @@ public class DisplayProducts extends AppCompatActivity {
     boolean refreshed = false;
     boolean populatedList = false;
     boolean runThread = false;
+    //private String[] SortOptions;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
     private SwipeRefreshLayout swiper;
 
 
@@ -54,8 +59,9 @@ public class DisplayProducts extends AppCompatActivity {
 
         DisplayProds prods = new DisplayProds();
         prods.execute();
-    }
 
+
+    }
 
 
     public class DisplayProds extends AsyncTask<Void, Integer, String> {
@@ -146,6 +152,7 @@ public class DisplayProducts extends AppCompatActivity {
 
                 JSONArray dataObject = products.getJSONArray("Table");
 
+
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
                     prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"),prodObject.getString("BidDuration"));
@@ -156,6 +163,8 @@ public class DisplayProducts extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (NullPointerException e1){
+                e1.printStackTrace();
             }
 
             progressDialog.dismiss();
@@ -175,6 +184,7 @@ public class DisplayProducts extends AppCompatActivity {
                 }
             });
 
+            loadNavBar();
         }
     }
 
@@ -350,6 +360,24 @@ public class DisplayProducts extends AppCompatActivity {
         long mil = cal.getTimeInMillis() - now.getTimeInMillis();
         if(mil > 0)return true;
         return false;
+    }
+
+
+    void loadNavBar(){
+
+        String [] SortOption = {"Sort in price","Filter With","Hello","Yoyo"};
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        //set adapter for drawer listview
+
+        //mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,SortOption));
+
+        mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,SortOption);
+
+        mDrawerList.setAdapter(mAdapter);
+
+
     }
 
 
