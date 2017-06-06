@@ -14,7 +14,7 @@ public class Crud {
     private ResultSet resultSet = null;
 
     public Crud(){
-        this.connectionString = "jdbc:jtds:sqlserver://projectgoviya.database.windows.net:1433/goviyaDB;instance=SQLEXPRESS;user=saucecode@projectgoviya;password=TheGoviya1234";
+        this.connectionString = "jdbc:jtds:sqlserver://projectgoviya.database.windows.net:1433/goviyaDB;instance=SQLEXPRESS;user=hgiedse@projectgoviya;password=";
 
     }
 
@@ -89,7 +89,7 @@ public class Crud {
 
             while (resultSet.next()) {
 
-                Products prod = new Products(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getDouble(4),resultSet.getDouble(5),resultSet.getString(6),resultSet.getString(7));
+                Products prod = new Products(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getDouble(4),resultSet.getDouble(5),resultSet.getString(6),resultSet.getString(7),"");
                 prodList.add(prod);
                 //System.out.println(resultSet.getInt(1)+" "+resultSet.getString(2)+" "+resultSet.getDouble(3)+" "+resultSet.getDouble(4)+" "+resultSet.getDouble(5)+" "+resultSet.getString(6)+" "+resultSet.getString(7) );
             }

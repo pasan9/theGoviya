@@ -5,25 +5,27 @@
 
     <!-- The main content view -->
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefresh">
+
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/my_action_bar_tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/appbarcolor"
-                android:elevation="4dp"
-                />
-
+                android:elevation="4dp" />
 
             <LinearLayout
 
@@ -31,80 +33,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/my_action_bar_tool_bar"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#f2f2f2"
+                android:gravity="right"
+                android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="right"
-                android:background="#f2f2f2"
-
-                >
+                android:paddingTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:gravity="right"
                     android:text="FILTER AND SORT"
                     android:textColor="@color/primary_dark_material_light"
-                    android:textSize="16dp"
-                    android:gravity="right"
-                    />
-
-
+                    android:textSize="16dp" />
 
             </LinearLayout>
 
+
+
             <FrameLayout
-                android:elevation="4dp"
                 android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/sortfilter"
+                android:elevation="4dp"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-
-                >
-
-
-
-
+                android:paddingRight="20dp">
 
                 <ListView
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@android:color/transparent"
-                    android:dividerHeight="0dp"
-
-
-                    />
+                    android:dividerHeight="0dp" />
 
             </FrameLayout>
 
-
         </RelativeLayout>
 
+    </FrameLayout>
 
-        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-
-    <ListView android:id="@+id/left_drawer"
+    <ListView
+        android:id="@+id/left_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
+        android:background="#111"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#111"/>
-
-
-
-
-
-
-
-
+        android:dividerHeight="0dp" />
 
 </android.support.v4.widget.DrawerLayout>

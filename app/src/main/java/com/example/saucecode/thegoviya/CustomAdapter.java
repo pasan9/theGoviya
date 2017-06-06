@@ -1,6 +1,7 @@
 package com.example.saucecode.thegoviya;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,29 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 /**
  * Created by anupamchugh on 09/02/16.
  */
-public class CustomAdapter extends ArrayAdapter<Products> implements View.OnClickListener{
+public class CustomAdapter extends ArrayAdapter<Products>{
+
+    private int year;
+    private int month;
+    private int day;
+    private int hour;
+    private int minute;
 
     private ArrayList<Products> dataSet;
     Context mContext;
+    CustomAdapter.ViewHolder viewHolder;
 
     // View lookup cache
     private static class ViewHolder {
@@ -29,49 +43,14 @@ public class CustomAdapter extends ArrayAdapter<Products> implements View.OnClic
         TextView price;
         TextView moisture;
         TextView sellingMethod;
-
+        TextView bidDuration;
+        CountDownTimer timer;
     }
-
-
 
     public CustomAdapter(ArrayList<Products> data, Context context) {
         super(context, R.layout.row_item, data);
         this.dataSet = data;
         this.mContext=context;
-
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-
-        int position=(Integer) v.getTag();
-        Object object = getItem(position);
-        Products dataModel=(Products) object;
-
-
-
-
-        switch (v.getId())
-        {
-
-           /* case R.id.item_info:
-
-                Snackbar.make(v, "Release date " +dataModel.getFeature(), Snackbar.LENGTH_LONG)
-                        .setAction("No action", null).show();
-
-                break;
-*/
-            case R.id.sellingmethod:
-
-                Toast.makeText(mContext,"You selected "+dataModel.productID,Toast.LENGTH_SHORT);
-
-                break;
-
-        }
-
-
     }
 
     private int lastPosition = -1;
@@ -81,12 +60,11 @@ public class CustomAdapter extends ArrayAdapter<Products> implements View.OnClic
         // Get the data item for this position
         Products dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
-        ViewHolder viewHolder; // view lookup cache stored in tag
+         // view lookup cache stored in tag
 
         final View result;
 
         if (convertView == null) {
-
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -97,29 +75,92 @@ public class CustomAdapter extends ArrayAdapter<Products> implements View.OnClic
             viewHolder.price = (TextView) convertView.findViewById(R.id.price);
             viewHolder.moisture = (TextView) convertView.findViewById(R.id.mositure);
             viewHolder.sellingMethod = (TextView) convertView.findViewById(R.id.sellingmethod);
+            viewHolder.bidDuration = (TextView) convertView.findViewById(R.id.bidDue);
 
             result=convertView;
 
             convertView.setTag(viewHolder);
+
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
+            result = convertView;
         }
 
         Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
 
-
         viewHolder.type.setText("Type of Crop : "+dataModel.type);
-        //viewHolder.farmerID.setText(viewHolder.farmerID.getText()+dataModel.farmerID);
         viewHolder.quantity.setText("Quantity : "+dataModel.qty+"");
         viewHolder.price.setText("Price : "+dataModel.price+"");
         viewHolder.moisture.setText("Moisture : "+dataModel.mois+"");
-        viewHolder.sellingMethod.setText(dataModel.sellingMethod);
-        viewHolder.sellingMethod.setOnClickListener(this);
         viewHolder.sellingMethod.setTag(position);
-        // Return the completed view to render on screen
+
+        if(dataModel.sellingMethod.equalsIgnoreCase("Auction")){
+
+            System.out.println(dataModel.bidDuration);
+            String[] array = dataModel.bidDuration.split("T");
+            String date = array[0];
+            String time = array[1];
+
+            SimpleDateFormat dateTimeFor = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Calendar cal = Calendar.getInstance();
+
+            try {
+                cal.setTime(dateTimeFor.parse(date+" "+time));
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH);
+                day = cal.get(Calendar.DAY_OF_MONTH);
+                hour = cal.get(Calendar.HOUR);
+                minute = cal.get(Calendar.MINUTE);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Calendar now = Calendar.getInstance();
+
+            long mil = cal.getTimeInMillis() - now.getTimeInMillis();
+
+            if(mil > 0 ) {
+                cal.setTimeInMillis(mil);
+                System.out.println(dateTimeFor.format(cal.getTime()));
+
+                new CountDownTimer(mil, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        long remain = 0;
+                        long dayDiff = 0;
+                        long houDiff = 0;
+                        long minDiff = 0;
+                        long secDiff = 0;
+
+                        remain = millisUntilFinished / 1000;
+                        secDiff = remain % 60;
+                        remain /= 60;
+                        minDiff = remain % 60;
+                        remain /= 60;
+                        houDiff = remain % 24;
+                        remain /= 24;
+                        dayDiff = remain;
+
+                        viewHolder.sellingMethod.setText("Auction : "+dayDiff + " days " + houDiff + ":" + minDiff + ":" + secDiff + " left");
+                    }
+
+                    public void onFinish() {
+                        viewHolder.sellingMethod.setText("Auction closed");
+                    }
+
+                }.start();
+
+            } else {
+                viewHolder.sellingMethod.setText("Auction closed");
+            }
+        } else {
+
+            viewHolder.sellingMethod.setText(dataModel.sellingMethod);
+        }
         return convertView;
     }
 

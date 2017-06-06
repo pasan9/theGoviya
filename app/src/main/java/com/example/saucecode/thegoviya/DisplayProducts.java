@@ -1,9 +1,11 @@
 package com.example.saucecode.thegoviya;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +26,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class DisplayProducts extends AppCompatActivity {
@@ -38,19 +43,19 @@ public class DisplayProducts extends AppCompatActivity {
     boolean refreshed = false;
     boolean populatedList = false;
     boolean runThread = false;
+    private SwipeRefreshLayout swiper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         runThread = true;
-        thread.start();
+        //thread.start();
 
         DisplayProds prods = new DisplayProds();
         prods.execute();
-
-
     }
+
 
 
     public class DisplayProds extends AsyncTask<Void, Integer, String> {
@@ -58,14 +63,14 @@ public class DisplayProducts extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(DisplayProducts.this);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setTitle("Loading...");
             progressDialog.setMessage("Loading product list, Please wait...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
             progressDialog.setMax(100);
             progressDialog.setProgress(0);
-            progressDialog.show();
+           // progressDialog.show();
         }
 
         @Override
@@ -95,14 +100,14 @@ public class DisplayProducts extends AppCompatActivity {
                     }
                     br.close();
 
-                    synchronized (this) {
+                    /*synchronized (this) {
                         int counter = 0;
                         while (counter <= 4) {
                             this.wait(10);
                             counter++;
                             publishProgress(counter * 25);
                         }
-                    }
+                    }*/
 
                     return sb.toString();
 
@@ -117,15 +122,13 @@ public class DisplayProducts extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            progressDialog.setProgress(values[0]);
+            //progressDialog.setProgress(values[0]);
         }
 
         @Override
@@ -138,7 +141,6 @@ public class DisplayProducts extends AppCompatActivity {
 
             Products prod;
             prodList.clear();
-            //prodList = new ArrayList<Products>();
             try {
                 products = new JSONObject(s);
 
@@ -146,23 +148,33 @@ public class DisplayProducts extends AppCompatActivity {
 
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
-                    prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"));
-                    prodList.add(prod);
+                    prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"),prodObject.getString("BidDuration"));
+                    if(compareDates(prod.bidDuration) || prod.sellingMethod.equalsIgnoreCase("Sell it now"))
+                        //System.out.println(prod.sellingMethod);
+                        prodList.add(prod);
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-
             progressDialog.dismiss();
-            setContentView(R.layout.activity_display_products);
+            setContentView(R.layout.display_products);
             toolbar = (Toolbar) findViewById(R.id.my_action_bar_tool_bar);
             setSupportActionBar(toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
             toolbar.setSubtitleTextColor(Color.WHITE);
             listView = (ListView) findViewById(R.id.list);
             populateProductList();
+            swiper = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+            swiper.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+            swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    onOptionsItemSelected(R.id.action_refresh);
+                }
+            });
+
         }
     }
 
@@ -174,6 +186,7 @@ public class DisplayProducts extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        progressDialog.dismiss();
         int optionId = item.getItemId();
         if (optionId == R.id.action_refresh) {
             DisplayProds prods = new DisplayProds();
@@ -199,8 +212,6 @@ public class DisplayProducts extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Products dataModel = prodList.get(position);
 
-
-                //System.out.println(dataModel.farmerID+" "+dataModel.type);
                 viewProduct(dataModel);
             }
         });
@@ -208,6 +219,7 @@ public class DisplayProducts extends AppCompatActivity {
     }
 
     private void viewProduct(Products product) {
+        runThread = false;
         Intent intent = new Intent(this, ProductDetails.class);
         intent.putExtra("product", product);
         startActivity(intent);
@@ -220,6 +232,16 @@ public class DisplayProducts extends AppCompatActivity {
         Intent intent = new Intent(this, BuyerHome.class);
         startActivity(intent);
         this.finish();
+    }
+
+    private void setSwipeAction(){
+        swiper = (SwipeRefreshLayout) DisplayProducts.this.findViewById(R.id.swipeRefresh);
+        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                onOptionsItemSelected(R.id.action_refresh);
+            }
+        });
     }
 
     private class OnDataChangeThread extends Thread {
@@ -292,6 +314,42 @@ public class DisplayProducts extends AppCompatActivity {
             }
 
         }
+    }
+
+
+    private boolean compareDates(String givenDate){
+        int year;
+        int month;
+        int day;
+        int hour;
+        int minute;
+
+        String[] array = givenDate.split("T");
+        String date = array[0];
+        String time = array[1];
+        SimpleDateFormat dateTimeFor = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Calendar cal = Calendar.getInstance();
+
+        try {
+
+            cal.setTime(dateTimeFor.parse(date + " " + time));
+            year = cal.get(Calendar.YEAR);
+            month = cal.get(Calendar.MONTH);
+            day = cal.get(Calendar.DAY_OF_MONTH);
+            hour = cal.get(Calendar.HOUR);
+            minute = cal.get(Calendar.MINUTE);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar now = Calendar.getInstance();
+
+        System.out.println("date : "+cal.getTime()+" mils "+cal.getTimeInMillis()+" today : "+now.getTime()+" mils : "+now.getTimeInMillis());
+        long mil = cal.getTimeInMillis() - now.getTimeInMillis();
+        if(mil > 0)return true;
+        return false;
     }
 
 

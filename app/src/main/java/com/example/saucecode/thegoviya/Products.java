@@ -15,17 +15,19 @@ public class Products implements Serializable {
     double mois;
     String type;
     String sellingMethod;
+    String bidDuration;
 
-    public Products(String f,double q,double pr,double mo,String ty,String sel){
+    public Products(String f,double q,double pr,double mo,String ty,String sel,String b){
         this.farmerID = f;
         this.price = pr;
         this.mois = mo;
         this.qty = q;
         this.sellingMethod = sel;
         this.type = ty;
+        this.bidDuration = b;
     }
 
-    public Products(int p,String f,double q,double pr,double mo,String ty,String sel){
+    public Products(int p,String f,double q,double pr,double mo,String ty,String sel,String b){
         this.productID = p;
         this.farmerID = f;
         this.price = pr;
@@ -33,5 +35,6 @@ public class Products implements Serializable {
         this.qty = q;
         this.sellingMethod = sel;
         this.type = ty;
+        this.bidDuration = b;
     }
 }

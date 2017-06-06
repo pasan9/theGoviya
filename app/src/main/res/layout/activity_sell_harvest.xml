@@ -4,59 +4,58 @@
     android:id="@+id/activity_sell_harvest"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/thegoviyalogin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/thegoviyalogin"
     tools:context="com.example.saucecode.thegoviya.SellHarvest">
 
     <LinearLayout
-        android:layout_margin="15dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="15dp"
         android:background="@drawable/rounded_corner_layout"
-        >
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <Spinner
-        android:layout_margin="10dp"
-        android:id="@+id/cropList"
-        android:hint="Select Crop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:layout_margin="8dp"
-        android:inputType="numberDecimal"
-        android:hint="Enter Quantity in kg"
-        android:id="@+id/qty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/cropList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Select Crop" />
 
         <EditText
+            android:id="@+id/qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType="numberDecimal"
-            android:hint="Min price per kg"
+            android:hint="Enter Quantity in kg"
+            android:inputType="numberDecimal" />
+
+        <EditText
             android:id="@+id/minPrice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="Min price per kg"
+            android:inputType="numberDecimal" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_margin="8dp"
-        android:inputType="numberDecimal"
-        android:hint="Moisture level"
-        android:enabled="false"
-        android:id="@+id/mois"
-        android:layout_width="137dp"
-        android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/mois"
+                android:layout_width="137dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:enabled="false"
+                android:hint="Moisture level"
+                android:inputType="numberDecimal" />
 
             <Button
                 android:id="@+id/detectMois"
@@ -70,24 +69,53 @@
         </LinearLayout>
 
         <Spinner
-            android:layout_margin="8dp"
             android:id="@+id/sellMethod"
-            android:hint="Select selling method"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:hint="Select selling method" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:id="@+id/bidTimeLayout">
+
+            <EditText
+                android:id="@+id/bidTime"
+                android:layout_width="137dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:enabled="true"
+                android:hint="Bidding time"
+                android:inputType="datetime" />
+
+            <Button
+                android:id="@+id/setTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_set_time" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_set_date"
+                android:id="@+id/setDate" />
+
+        </LinearLayout>
 
         <Button
-            android:layout_margin="8dp"
             android:id="@+id/addBtn"
-            android:text="Sell Production"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="#ffffff"
-            android:background="@drawable/round_green_button"/>
+            android:layout_margin="8dp"
+            android:background="@drawable/round_green_button"
+            android:text="Sell Production"
+            android:textColor="#ffffff" />
 
-</LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

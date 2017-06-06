@@ -52,9 +52,7 @@
                 android:background="@drawable/rounded_edit_text"
                 android:hint="NIC Number"
                 android:inputType="text"
-                android:padding="13dp"
-
-                 />
+                android:padding="13dp" />
 
             <EditText
                 android:id="@+id/password"

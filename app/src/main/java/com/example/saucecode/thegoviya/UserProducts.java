@@ -127,6 +127,8 @@ public class UserProducts extends AppCompatActivity {
             JSONObject products = null;
 
             Products prod;
+            prodList.clear();
+            prodList = new ArrayList<Products>();
             try {
                 products = new JSONObject(s);
 
@@ -134,7 +136,7 @@ public class UserProducts extends AppCompatActivity {
 
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
-                    prod = new Products(prodObject.getInt("productID"),prodObject.getString("farmerID"),prodObject.getDouble("Quantity"),prodObject.getDouble("UnitPrice"),prodObject.getDouble("MoistureLevel"),prodObject.getString("ProductType"),prodObject.getString("SellingMethod"));
+                    prod = new Products(prodObject.getInt("productID"),prodObject.getString("farmerID"),prodObject.getDouble("Quantity"),prodObject.getDouble("UnitPrice"),prodObject.getDouble("MoistureLevel"),prodObject.getString("ProductType"),prodObject.getString("SellingMethod"),prodObject.getString("BidDuration"));
                     prodList.add(prod);
                 }
 
@@ -196,4 +198,5 @@ public class UserProducts extends AppCompatActivity {
         startActivity(intent);
         this.finish();
     }
+
 }

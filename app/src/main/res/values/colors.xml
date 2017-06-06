@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#329f30</color>
     <color name="colorAccent">#FF4081</color>
     <color name="appbarcolor">#01ac1a</color>
+    <color name="orange">#FF9900</color>
+    <color name="green">#009900</color>
+    <color name="blue">#000099</color>
 </resources>
