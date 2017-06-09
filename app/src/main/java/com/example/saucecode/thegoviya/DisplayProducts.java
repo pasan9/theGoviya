@@ -155,9 +155,8 @@ public class DisplayProducts extends AppCompatActivity {
 
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
-                    prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"), prodObject.getString("BidDuration"));
+                    prod = new Products(prodObject.getInt("productID"), prodObject.getString("farmerID"), prodObject.getDouble("Quantity"), prodObject.getDouble("UnitPrice"), prodObject.getDouble("MoistureLevel"), prodObject.getString("ProductType"), prodObject.getString("SellingMethod"), prodObject.getString("BidDuration"), prodObject.getString("MoisUpdate"));
                     if (compareDates(prod.bidDuration) || prod.sellingMethod.equalsIgnoreCase("Sell it now"))
-                        //System.out.println(prod.sellingMethod);
                         prodList.add(prod);
                 }
 

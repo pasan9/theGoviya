@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*if(true)*/
         Person person = (Person) intent.getSerializableExtra("person");
         if(person != null) {
-            System.out.println("hereeeeeeeeeeeeeeeeeee");
             sharedPreferenceStore(person);
         }
 

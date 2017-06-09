@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.saucecode.thegoviya.ProductDetails">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/productType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Product Type"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/saleType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direct Sale"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/productType"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="29dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/priceLayout"
+            android:layout_below="@+id/saleType">
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:text="Product starts at :"
+                android:textSize="18sp"
+                android:layout_below="@+id/saleType" />
+
+            <EditText
+                android:id="@+id/priceTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:text="xxxxx"
+                android:textSize="18sp"
+                android:layout_below="@+id/saleType"
+                android:layout_marginLeft="25dp"
+                android:maxLines="1"
+                android:padding="7dp"
+                android:background="@drawable/rounded_edit_text"/>
+
+            <Button
+                android:id="@+id/updatePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_green_button"
+                android:text="CHANGE"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="25dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/QtyLayout"
+            android:layout_below="@+id/priceLayout">
+
+        <TextView
+            android:id="@+id/Qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:text="Quantity :"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"/>
+
+
+        <EditText
+            android:id="@+id/QtyTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:text="xxxxx"
+            android:textSize="18sp"
+            android:padding="7dp"
+            android:background="@drawable/rounded_edit_text"
+            android:layout_marginLeft="25dp"
+            android:maxLines="1"
+            android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:id="@+id/updateQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:background="@drawable/round_green_button"
+                android:text="CHANGE"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="25dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/moistureLayout"
+            android:layout_below="@+id/QtyLayout"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/moisture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Moisture :"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/moistureTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="xxxxx"
+                android:textSize="18sp"
+                android:padding="7dp"
+                android:background="@drawable/rounded_edit_text"
+                android:layout_marginLeft="25dp"/>
+
+            <Button
+                android:id="@+id/updateMois"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/round_green_button"
+                android:text="UPDATE"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="3dp"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_marginTop="7dp"
+            android:id="@+id/MoistureLastUpTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Updated :"
+            android:layout_below="@+id/moistureLayout" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

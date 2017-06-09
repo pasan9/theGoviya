@@ -16,8 +16,9 @@ public class Products implements Serializable {
     String type;
     String sellingMethod;
     String bidDuration;
+    String MoisUpdate;
 
-    public Products(String f,double q,double pr,double mo,String ty,String sel,String b){
+    public Products(String f,double q,double pr,double mo,String ty,String sel,String b,String moisUpdate){
         this.farmerID = f;
         this.price = pr;
         this.mois = mo;
@@ -25,9 +26,10 @@ public class Products implements Serializable {
         this.sellingMethod = sel;
         this.type = ty;
         this.bidDuration = b;
+        this.MoisUpdate = moisUpdate;
     }
 
-    public Products(int p,String f,double q,double pr,double mo,String ty,String sel,String b){
+    public Products(int p,String f,double q,double pr,double mo,String ty,String sel,String b,String moisUpdate){
         this.productID = p;
         this.farmerID = f;
         this.price = pr;
@@ -36,5 +38,6 @@ public class Products implements Serializable {
         this.sellingMethod = sel;
         this.type = ty;
         this.bidDuration = b;
+        this.MoisUpdate = moisUpdate;
     }
 }

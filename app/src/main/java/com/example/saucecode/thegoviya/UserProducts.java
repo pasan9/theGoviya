@@ -136,7 +136,7 @@ public class UserProducts extends AppCompatActivity {
 
                 for (int i = 0; i < dataObject.length(); i++) {
                     JSONObject prodObject = dataObject.getJSONObject(i);
-                    prod = new Products(prodObject.getInt("productID"),prodObject.getString("farmerID"),prodObject.getDouble("Quantity"),prodObject.getDouble("UnitPrice"),prodObject.getDouble("MoistureLevel"),prodObject.getString("ProductType"),prodObject.getString("SellingMethod"),prodObject.getString("BidDuration"));
+                    prod = new Products(prodObject.getInt("productID"),prodObject.getString("farmerID"),prodObject.getDouble("Quantity"),prodObject.getDouble("UnitPrice"),prodObject.getDouble("MoistureLevel"),prodObject.getString("ProductType"),prodObject.getString("SellingMethod"),prodObject.getString("BidDuration"), prodObject.getString("MoisUpdate"));
                     prodList.add(prod);
                 }
 
@@ -182,13 +182,15 @@ public class UserProducts extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Products dataModel= prodList.get(position);
-                //selectProduct(position);
+                selectProduct(position);
             }
         });
     }
+
     private void selectProduct(int position){
-        Intent intent = new Intent(this, BuyProduct.class);
+        Intent intent = new Intent(this, UserProductsInfo.class);
         intent.putExtra("product",prodList.get(position));
+        System.out.println(prodList.get(position).type);
         startActivity(intent);
     }
 
@@ -198,5 +200,7 @@ public class UserProducts extends AppCompatActivity {
         startActivity(intent);
         this.finish();
     }
+
+
 
 }

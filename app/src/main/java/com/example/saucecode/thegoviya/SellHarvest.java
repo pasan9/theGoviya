@@ -75,16 +75,16 @@ public class SellHarvest extends AppCompatActivity {
     int count = 0;
 
     public static final String PREFS_NAME = "ConnectedAddressFile";
-    String bluDevicename = "";
-    String address = "";
-    BluetoothAdapter myBT = null;
-    BluetoothSocket btSocket = null;
+    private String bluDevicename = "";
+    private String address = "";
+    private BluetoothAdapter myBT = null;
+    private BluetoothSocket btSocket = null;
     private boolean isBTConnected = false;
     private InputStream in;
     private OutputStream out;
-    static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    ConnectBT conn = new ConnectBT();
-    GetBReading reading = new GetBReading();
+    private static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private ConnectBT conn = new ConnectBT();
+    private GetBReading reading = new GetBReading();
 
     private Calendar cal = Calendar.getInstance();
     private Dialog dialog;
@@ -299,11 +299,11 @@ public class SellHarvest extends AppCompatActivity {
         }
     }
 
-    public void getSelectedItem(int pos) {
+    private  void getSelectedItem(int pos) {
         selectedCrop = pos;
     }
 
-    public void getSellingMethod(int pos) {
+    private void getSellingMethod(int pos) {
         selectedMethod = pos;
         if (pos == 1) {
             bidTime.setText(givenYear+"-"+givenMonth+"-"+givenDay+" "+givenHour+":"+givenMinute+":"+"00");
@@ -325,13 +325,15 @@ public class SellHarvest extends AppCompatActivity {
     }
 
 
-    public class AddProduct extends AsyncTask<String, String, String> {
+    private class AddProduct extends AsyncTask<String, String, String> {
 
-        public JSONObject getJSONObject() {
+        private JSONObject getJSONObject() {
             Double value = 0.0;
             String productType = productType(selectedCrop);
+            cal = Calendar.getInstance();
+            String moisUpdate = cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DAY_OF_MONTH)+" "+cal.get(Calendar.HOUR)+":"+cal.get(Calendar.MINUTE)+":"+"00";
             //String sellingMethod = (selectedMethod == 1) ? "Auction" : "Sell it now";
-            Products prod = new Products(userNIC, quantitiy, unitPrice, moistureLevel, productType, sellMethodList.get(selectedMethod),dateTime);
+            Products prod = new Products(userNIC, quantitiy, unitPrice, moistureLevel, productType, sellMethodList.get(selectedMethod),dateTime,moisUpdate);
 
             JSONObject obj = new JSONObject();
             try {
@@ -342,6 +344,7 @@ public class SellHarvest extends AppCompatActivity {
                 obj.put("ProductType", productType);
                 obj.put("SellingMethod", sellMethodList.get(selectedMethod));
                 obj.put("BidDuration", dateTime);
+                obj.put("MoisUpdate", moisUpdate);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -400,9 +403,6 @@ public class SellHarvest extends AppCompatActivity {
         }
     }
 
-    public void hideProgress() {
-        progress.hide();
-    }
 
     private class ConnectBT extends AsyncTask<Void, Void, Void> {//UI thread
         String fileName = PREFS_NAME;

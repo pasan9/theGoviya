@@ -21,10 +21,9 @@ import java.util.Set;
 
 public class BluetoothDevices extends Activity {
 
-    ListView pairedList ;
+    private ListView pairedList ;
     public static final String PREFS_NAME = "ConnectedAddressFile";
-    String bluDevicename = null;
-    String address =null;
+    private String address =null;
     private BluetoothAdapter myBT = null;
     private Set<BluetoothDevice> pairedDevices;
     private OutputStream outStream = null;

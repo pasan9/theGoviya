@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_margin="25dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="35dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/bidderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Buyer Name"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+
+            android:id="@+id/biddingAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bidderName"
+            android:layout_marginTop="15dp"
+            android:text="Buyer Amount"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <Button
+            android:layout_marginTop="15dp"
+            android:id="@+id/contactBuyer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/biddingAmount"
+            android:background="@drawable/round_green_button"
+            android:textColor="#FFFFFF"
+            android:text="Contact Buyer" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -5,9 +5,9 @@ package com.example.saucecode.thegoviya;
  */
 
 public class BuyerBid {
-    private String buyerID;
-    private int productID;
-    private double bidAmount;
+    protected String buyerID;
+    protected int productID;
+    protected double bidAmount;
 
     public BuyerBid(String b,int p,double a ){
         this.buyerID = b;
