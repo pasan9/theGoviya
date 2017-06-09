@@ -57,6 +57,13 @@ public class ProductDetails extends AppCompatActivity {
 
         product = (Products) getIntent().getSerializableExtra("product");
 
+
+        String[] array = product.MoisUpdate.split("T");
+        String date = array[0];
+        String time = array[1];
+        MoistureUpDate = date;
+        MoistureUpTime = time;
+
         if (product.sellingMethod.equalsIgnoreCase("Sell it now")) {
 
             setContentView(R.layout.activity_product_details);
