@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public class CheckLogin extends AsyncTask<String, String, String> {
+    private class CheckLogin extends AsyncTask<String, String, String> {
         String result = "";
 
         @Override

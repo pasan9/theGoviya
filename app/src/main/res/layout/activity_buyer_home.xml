@@ -5,42 +5,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.saucecode.thegoviya.BuyerHome">
+    tools:context="com.example.saucecode.thegoviya.BuyerHome"
+    android:background="@drawable/main_screen_back"
+    >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_action_bar_tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary_dark_material_light"
-        android:logo="@drawable/goviyalogo1"
-        >
-
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/layout_app_bar"/>
 
     <LinearLayout
-        android:layout_below="@+id/my_action_bar_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_marginTop="100dp"
+        android:layout_below="@+id/my_action_bar_tool_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/viewProducts"
-        android:background="@mipmap/ic_buybtnicon"
-        android:layout_marginLeft="58dp"
-        android:layout_marginStart="58dp" />
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="58dp"
-        android:layout_marginStart="58dp"
-        android:id="@+id/logOut"
-        android:background="@mipmap/ic_logouticon"
-       />
+
+        <Button
+            android:id="@+id/viewProducts"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/round_green_button"
+            android:text="Harvest on Sale"
+            android:textColor="#ffffff" />
+
+        <Button
+
+            android:id="@+id/logOut"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/round_green_button"
+            android:text="Log Out"
+            android:textColor="#ffffff" />
+
+
+
+
 
     </LinearLayout>
-
 </RelativeLayout>
 

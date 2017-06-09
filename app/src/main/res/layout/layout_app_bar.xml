@@ -5,7 +5,18 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_action_bar_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/appbarcolor"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/appbarcolor">
+
+    <ImageView
+       android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/goviyaappbarlogo"
+        android:id="@+id/toolbar_title" />
+
+    </android.support.v7.widget.Toolbar>
+
 
 </merge>

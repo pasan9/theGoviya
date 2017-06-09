@@ -73,7 +73,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         if(v == moistureMeter){
             Intent intent = new Intent(this,MonitorMoisture.class);
             startActivity(intent);
-            this.finish();
+            //this.finish();
         }
 
     }

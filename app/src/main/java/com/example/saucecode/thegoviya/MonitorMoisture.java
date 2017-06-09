@@ -17,9 +17,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.UUID;
 
 public class MonitorMoisture extends AppCompatActivity {
@@ -39,21 +49,17 @@ public class MonitorMoisture extends AppCompatActivity {
     private int[] values;
     int count = 0;
     private Double moistureLevel = 0.0;
-    TextView txtDevice;
+    TextView txtDevice, txtHum, txtTemp, txtCurMois, txtPred, txtStatus;
     Button btnDetect;
     GetBReading reading = new GetBReading();
     String humidity,temperature;
+    String moisRecieved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //check for bt device
 
-        //initialize progress dialog
-                progress = new ProgressDialog(this);
-
-
-
+        progress = new ProgressDialog(this);
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
         boolean hasAddress = prefs.getBoolean("hasAddress", false);
         if (hasAddress) {
@@ -61,15 +67,6 @@ public class MonitorMoisture extends AppCompatActivity {
         } else {
             selectBluetoothDevice();
         }
-
-
-
-
-
-
-
-
-
     }
 
 
@@ -103,13 +100,6 @@ public class MonitorMoisture extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
-
 
     private class ConnectBT extends AsyncTask<Void, Void, Void> {//UI thread
         String fileName = PREFS_NAME;
@@ -174,9 +164,6 @@ public class MonitorMoisture extends AppCompatActivity {
                 reading.execute();*/
             }
         }
-
-
-
 
     }
 
@@ -296,9 +283,10 @@ public class MonitorMoisture extends AppCompatActivity {
             //mois.setText(percentage + "%");
             //detect.setVisibility(View.VISIBLE);
             //detect.setClickable(true);
-            txtDevice.setText("Temperature : "+temperature+" Humidity : "+humidity+" moisture : "+percentage);
             progress.hide();
             Toast.makeText(getApplicationContext(), "Moisture Detected", Toast.LENGTH_LONG).show();
+            GetMois get = new GetMois();
+            get.execute();
 
         }
     }
@@ -317,23 +305,109 @@ public class MonitorMoisture extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setSubtitleTextColor(Color.WHITE);
+        txtHum = (TextView) findViewById(R.id.txtRelHumidity);
+        txtTemp = (TextView) findViewById(R.id.txtTemprature);
+        txtCurMois = (TextView) findViewById(R.id.txtCurrentMoisture);
+        txtPred = (TextView) findViewById(R.id.txtPredictedMoisture);
+        txtStatus = (TextView) findViewById(R.id.txtStatus);
         //Buttons and Text Views
         txtDevice = (TextView)findViewById(R.id.txtDevice);
         btnDetect = (Button)findViewById(R.id.btnDetect);
 
         txtDevice.setText(txtDevice.getText()+" "+address);
-        txtDevice.setText(txtDevice.getText()+" "+moistureLevel);
+
 
 
     }
 
 
-    void setValues(){
 
+    private class GetMois extends AsyncTask<String, String, String> {
+        String result = "";
+        int hum;
+        int temp;
+
+        @Override
+        protected void onPreExecute() {
+            hum = 5*(Math.round(Integer.parseInt(humidity.trim().substring(0,2))/5));
+            temp = 5*(Math.round(Integer.parseInt(temperature.trim().substring(0,2))/5));;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            /*Crud con = new Crud();
+            result = con.connectDBLogin("SELECT * FROM users WHERE NIC='"+uNic+"' AND password='"+uPass+"';");*/
+            URL mUrl = null;
+            try {
+                mUrl = new URL("http://thegoviyawebservice.azurewebsites.net/api/Product/?relHum="+hum+"&temp="+temp);
+                System.out.println(mUrl);
+                HttpURLConnection httpConnection = (HttpURLConnection) mUrl.openConnection();
+                httpConnection.setRequestMethod("GET");
+                httpConnection.setRequestProperty("Content-length", "0");
+                httpConnection.setUseCaches(false);
+                httpConnection.setAllowUserInteraction(false);
+                httpConnection.setConnectTimeout(100000);
+                httpConnection.setReadTimeout(100000);
+                httpConnection.connect();
+
+                int responseCode = httpConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    return sb.toString();
+
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Success";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println("===========================================================");
+            System.out.println(s);
+
+            JSONObject personObject = null;
+            Person person = new Person();
+
+            try {
+                personObject = new JSONObject(s);
+                JSONArray dataObject = personObject.getJSONArray("Table");
+                JSONObject json = dataObject.getJSONObject(0);
+                moisRecieved = json.getString("paddyMoisture");
+                System.out.println("Value recieved  : "+moisRecieved);
+
+                txtHum.setText(txtHum.getText()+" : "+hum+"");
+                txtTemp.setText(txtTemp.getText()+" : "+temp+" C");
+                txtPred.setText(txtPred.getText()+" : "+moisRecieved+"");
+                txtCurMois.setText(txtCurMois.getText()+" : "+moistureLevel+"");
+
+                if(moistureLevel > Double.parseDouble(moisRecieved)){
+                    txtStatus.setText(txtStatus.getText()+" : NOT HEALTHY");
+                } else {
+                    txtStatus.setText(txtStatus.getText()+" : HEALTHY");
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
-
-
 
 
 
