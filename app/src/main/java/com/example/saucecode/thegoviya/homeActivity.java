@@ -20,6 +20,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
     private Button sellbtn;
     private Button displayProds;
     private Button logOut;
+    private Button moistureMeter;
     public static final String PREFS_NAME = "MyLoginStatusFile";
 
     @Override
@@ -39,6 +40,8 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         sellbtn.setOnClickListener(this);
         displayProds = (Button)findViewById(R.id.displayUserProducts);
         displayProds.setOnClickListener(this);
+        moistureMeter = (Button)findViewById(R.id.btnMoistureMonitor);
+        moistureMeter.setOnClickListener(this);
 
     }
 
@@ -66,6 +69,13 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             this.finish();
         }
+
+        if(v == moistureMeter){
+            Intent intent = new Intent(this,MonitorMoisture.class);
+            startActivity(intent);
+            this.finish();
+        }
+
     }
 
     @Override

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.saucecode.thegoviya.MonitorMoisture">
+
+    <include layout="@layout/layout_app_bar"/>
+
+    <RelativeLayout
+        android:layout_below="@id/my_action_bar_tool_bar"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        android:id="@+id/relativeLayout2">
+
+        <TextView
+            android:id="@+id/txtDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Connected to : "
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/txtRelHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtDevice"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="35dp"
+            android:text="Relative Humidity"
+            android:textSize="18sp" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBarHumidity"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtRelHumidity"
+            android:layout_marginBottom="5dp"
+
+            />
+
+
+        <TextView
+            android:id="@+id/txtTemprature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressBarHumidity"
+            android:layout_marginBottom="5dp"
+            android:text="Room Temprature"
+            android:textSize="18sp" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBarTemprature"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/txtTemprature"
+            android:layout_marginBottom="5dp"
+            />
+
+
+        <TextView
+            android:id="@+id/txtCurrentMoisture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/progressBarTemprature"
+            android:text="Current Moisture of Paddy"
+            android:textSize="18sp" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBarCurrentMoisture"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@id/txtCurrentMoisture"
+            />
+
+
+        <TextView
+            android:id="@+id/txtPredictedMoisture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressBarCurrentMoisture"
+            android:layout_marginBottom="5dp"
+            android:text="Predicted of Paddy"
+            android:textSize="18sp" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBarPredictedMoisture"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@id/txtPredictedMoisture"
+            />
+
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressBarPredictedMoisture"
+            android:text="Status: "
+            android:textSize="18sp" />
+        android:layout_marginBottom="5dp"
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnDetect"
+            android:text="Detect"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/round_green_button"
+            android:layout_below="@id/txtStatus"
+            android:layout_marginBottom="5dp"
+
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

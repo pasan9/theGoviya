@@ -37,6 +37,7 @@
         <activity android:name=".UserProducts" />
         <activity android:name=".ProductDetails" />
         <activity android:name=".UserProductsInfo"></activity>
+        <activity android:name=".MonitorMoisture"></activity>
     </application>
 
 </manifest>
